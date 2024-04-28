@@ -1,5 +1,5 @@
 //https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbi1HV0M1a0VkQzcwMDF5SXRBbE0yTDBjNHFnQXxBQ3Jtc0ttTW16NGdPMTk3QkpBZXh4ay11dFZ2SGNNd0JfeUl4YlNJMVZyNzRKR3VVWkFZMzdwYlYwNnFXUzhUdndRbVB5c05mRHRDbzNjZ3EwUjRvWTRWNmZPU3Uxb0l6SmpydTQ2VmxKY0NiX1FpSy03WkE4Yw&q=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1mUlahfYxqAzE_nKC9PLhp7NsvAd838KZ%3Fusp%3Dsharing&v=j7yeR1vaqDs
-
+#include <TimeLib.h>
 int LED_PINS[] = {21,22,17,2,15,13,12,27}; 
 
 int NUMBER9[] = {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0};
@@ -42,6 +42,8 @@ int Y[] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 
 int Z[] = {1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1};
 int* alpha[] = {A, B, C, D, E, F, G, H, I, J, K, L, M, N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
 int* nums [] = {NUMBER0,NUMBER1,NUMBER2,NUMBER3,NUMBER4, NUMBER5, NUMBER6, NUMBER7, NUMBER8, NUMBER9};
+int exclamation[] = {0,1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1,0};
+int colon[] = {0,1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1,0,0,1,1,1,0};
 int letterSpace;
 int dotTime;
 #include <SPI.h>
@@ -148,15 +150,43 @@ void printString(String str){
     if (c >= 'A' && c <= 'Z') {
       int index = c - 'A'; // Get the index in the alpha array
       printLetter(alpha[index]); // Print the corresponding letter
-    } else if (c == ' ') {
-      printLetter(_);
     } else if (isdigit(c)) {
       int index = c - '0'; // Get the index in the number array
       if (index >= 0 && index <= 9) {
         printLetter(nums[index]); // Print the corresponding number
       }
+    } else if (c == ' ' or c == '+') {
+      printLetter(_);
+    } else if (c == '!'){
+      printLetter(exclamation);
+    } else if (c == ':'){
+      printLetter(colon);
     }
   }
+}
+
+void printTime(){
+  time_t cur = now();
+  int hr = hourFormat12(cur);
+  int min = minute(cur);
+  //print hr
+  if (hr < 10){
+    printLetter(nums[hr]);
+  } else {
+    printLetter(NUMBER1);
+    printLetter(nums[hr-10]);
+  }
+  printLetter(colon);
+  //print min
+  printLetter(nums[(min-min%10)/10]);
+  printLetter(nums[min%10]);
+  //print am/pm
+  if (isPM(cur)) {
+    printLetter(P);
+  } else {
+    printLetter(A);
+  }
+  printLetter(M);
 }
 
 void loop()//write here =)
@@ -197,7 +227,9 @@ void loop()//write here =)
             // the content of the HTTP response follows the header:
             client.print("Click <a href=\"/H\">here</a> turn the LED on pin 12 on<br>");
             client.print("Click <a href=\"/L\">here</a> turn the LED on pin 12 off<br>");
+            client.print("Click <a href=\"/Time\">here</a> to see the time<br>");
             client.print("<form><label for=\"msg\">Message:</label><br><input type=\"text\" id=\"msg\" name=\"msg\"><br></form>");
+            client.print("Supports alphanumeric characters, ! and :");
 
             // The HTTP response ends with another blank line:
             client.println();
@@ -216,6 +248,9 @@ void loop()//write here =)
         }
         if (currentLine.endsWith("GET /L")) {
           digitalWrite(12, LOW);                // GET /L turns the LED off
+        }
+        if (currentLine.endsWith("GET /Time")) {
+          display = "";
         }
         
         if (currentLine.startsWith("GET /?msg=")){
@@ -238,15 +273,15 @@ void loop()//write here =)
 
         }
       }
-      printString(display);
     }
     // close the connection:
     client.stop();
     Serial.println("client disconnected");
-  }// else {
-//    printString("HELLO");
- // }
-
-
-
+  }
+  if (display == ""){
+    printTime();
+  } else {
+    printString(display);
+  }
+  
 }
