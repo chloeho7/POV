@@ -1,7 +1,7 @@
 # POV display Creative Embedded Systems
 
 
-https://github.com/chloeho7/POV/assets/56209417/18cafe00-b131-44dd-bd1c-7c5ed85aac9b
+![IMG_8478](https://github.com/chloeho7/POV/assets/56209417/312d7ff9-5f8b-41d5-a9cf-b4f383f5c350)
 
 
 ## How to recreate
