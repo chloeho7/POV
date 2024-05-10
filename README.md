@@ -1,5 +1,9 @@
 # POV display Creative Embedded Systems
 
+
+https://github.com/chloeho7/POV/assets/56209417/18cafe00-b131-44dd-bd1c-7c5ed85aac9b
+
+
 ## How to recreate
 
 ### Components
@@ -27,6 +31,12 @@
 4. Select Upload and enjoy the display
 
 ### Installation
+![IMG_8455](https://github.com/chloeho7/POV/assets/56209417/dde83046-c54d-46e9-a8d7-f5d8049e3eb7)
+![IMG_8475](https://github.com/chloeho7/POV/assets/56209417/ed0661de-dcfb-455d-9daf-d762c874ee9f)
+![IMG_8481](https://github.com/chloeho7/POV/assets/56209417/99a32b32-71af-41ef-ba53-9b4335089d51)
+![IMG_8456](https://github.com/chloeho7/POV/assets/56209417/87f47d68-3fa4-4839-8565-99511109db9d)
+
+
 
 #### Perf Board
 1. Put all the LEDs in a line in the Perf board making sure all the negative and positive leads are on the same side.
@@ -48,8 +58,10 @@
 12. Turn on the Fan and enjoy!
 
 ### Connecting to ESP32 server
-1. Connect to the ESP32 through USB-C
-2. Turn on the serial monitor in the Arduino IDE for instructions
+1. Replace the network SSID on line 53 'POV.ino'
+2. Add password on line 93 if neccesary
+3. Connect to the ESP32 through USB-C
+4. Turn on the serial monitor in the Arduino IDE for instructions
 
 
 
