@@ -30,7 +30,7 @@
 
 #### Perf Board
 1. Put all the Leds in a line in the Perf board making sure all the negative and positive leads are on the same side.
-2. Place the Resistors next to each of the positive sides of the LEDs
+2. Place the Resistors next to each of the positive sides of the LEDs (long lead)
 3. Solder together all the negative leads
 4. Solder a male end of the wire to the negative lead
 5. For each LED solder the resistor and positive long lead and the male end of a wire to the resistor
